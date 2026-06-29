@@ -1577,6 +1577,15 @@ function confirmarLogin() {
   verificarAlertasEventosDia();
   showPage('dashboard');
   toast(`✓ Bem-vindo, <strong>${esc(nomeExibicao(u))}</strong>!`);
+
+  // Sincronizar dados com Supabase
+  if (typeof sbSincronizarTudo === 'function') {
+    sbPushUsuariosIniciais();
+    sbSincronizarTudo().then(() => {
+      renderDashCalendario();
+      renderMinhasTarefas();
+    });
+  }
 }
 
 function trocarUsuario() {
