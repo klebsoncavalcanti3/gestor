@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GESTOR — Plataforma Jurídica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+  <!-- Pré-carregamento de todas as fontes do painel de aparência -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&family=Outfit:wght@400;700&family=Plus+Jakarta+Sans:wght@400;700&family=Lato:wght@400;700&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ========== TELA DE LOGIN ========== -->
+<div id="tela-login" class="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <span class="login-logo-g">G</span><span class="login-logo-text">ESTOR</span>
+    </div>
+    <div class="login-escritorio" id="login-escritorio-nome" data-nome-escritorio>Costa Cavalcanti Advogados</div>
+    <div class="login-subtitulo">Selecione seu usuário para entrar</div>
+
+    <div class="login-usuarios" id="login-usuarios-lista"></div>
+
+    <div class="login-senha-wrap" id="login-senha-wrap" style="display:none">
+      <div class="login-usuario-selecionado" id="login-usuario-selecionado"></div>
+      <input type="password" id="login-senha" class="login-input" placeholder="Senha (deixe vazio para demo)" autocomplete="current-password"/>
+      <button class="login-btn" onclick="confirmarLogin()">Entrar no sistema</button>
+      <button class="login-voltar" onclick="voltarSelecaoUsuario()">← Trocar usuário</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-g">G</span>
+    <span class="logo-text">ESTOR</span>
+  </div>
+  <div class="sidebar-escritorio" id="sidebar-escritorio" data-nome-escritorio>Costa Cavalcanti Advogados</div>
+
+  <div class="sidebar-user">
+    <div class="user-avatar" id="sidebar-avatar">KC</div>
+    <div class="user-info">
+      <span class="user-name">Dr. Klebson Cavalcanti</span>
+      <span class="user-role">Sócio Administrador</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <div class="nav-group-label">PRINCIPAL</div>
+    <a class="nav-item active" data-modulo="dashboard"    onclick="navegarPara('dashboard')"    href="#"><span class="nav-icon">⊞</span> Dashboard</a>
+    <a class="nav-item"        data-modulo="clientes"     onclick="navegarPara('clientes')"     href="#"><span class="nav-icon">◉</span> Clientes & CRM</a>
+    <a class="nav-item"        data-modulo="processos"    onclick="navegarPara('processos')"    href="#"><span class="nav-icon">⚖</span> Processos</a>
+    <a class="nav-item"        data-modulo="prazos"       onclick="navegarPara('prazos')"       href="#"><span class="nav-icon">⏱</span> Prazos</a>
+    <a class="nav-item"        data-modulo="agenda"       onclick="navegarPara('agenda')"       href="#"><span class="nav-icon">📅</span> Agenda <span class="badge gold">3</span></a>
+    <a class="nav-item"        data-modulo="intimacoes"   onclick="navegarPara('intimacoes')"   href="#"><span class="nav-icon">📨</span> Intimações <span class="badge">7</span></a>
+    <a class="nav-item"        data-modulo="andamentos"   onclick="navegarPara('andamentos')"   href="#"><span class="nav-icon">🤖</span> Andamentos & IA <span class="badge gold">3</span></a>
+    <a class="nav-item"        data-modulo="kanban-adm"   onclick="navegarPara('kanban-adm')"   href="#"><span class="nav-icon">🏢</span> Kanban Adm. <span class="badge" id="badge-kb-adm">0</span></a>
+    <a class="nav-item"        data-modulo="kanban-jud"   onclick="navegarPara('kanban-jud')"   href="#"><span class="nav-icon">⚖️</span> Kanban Judicial <span class="badge gold" id="badge-kb-jud">0</span></a>
+
+    <div class="nav-group-label">INTELIGÊNCIA</div>
+    <a class="nav-item" data-modulo="estrategia"  onclick="navegarPara('estrategia')"  href="#"><span class="nav-icon">✦</span> IA Estratégica <span class="badge gold" id="badge-estrategia">5</span></a>
+    <a class="nav-item" data-modulo="agentes"     onclick="navegarPara('agentes')"     href="#"><span class="nav-icon">🤖</span> Agentes de IA <span class="badge gold" id="badge-agentes">0</span></a>
+    <a class="nav-item" data-modulo="followups"   onclick="navegarPara('followups')"   href="#"><span class="nav-icon">🎯</span> Follow-ups <span class="badge" id="followup-badge">4</span></a>
+    <a class="nav-item" data-modulo="peticoes"    onclick="navegarPara('peticoes')"    href="#"><span class="nav-icon">✦</span> Petições IA</a>
+    <a class="nav-item" data-modulo="workflow"    onclick="navegarPara('workflow')"    href="#"><span class="nav-icon">◈</span> Workflow</a>
+    <a class="nav-item" data-modulo="documentos"  onclick="navegarPara('documentos')"  href="#"><span class="nav-icon">□</span> Documentos</a>
+
+    <div class="nav-group-label">GESTÃO</div>
+    <a class="nav-item" data-modulo="financeiro"  onclick="navegarPara('financeiro')"  href="#"><span class="nav-icon">◈</span> Financeiro</a>
+    <a class="nav-item" data-modulo="horas"       onclick="navegarPara('horas')"       href="#"><span class="nav-icon">◷</span> Apontamento de Horas</a>
+    <a class="nav-item" data-modulo="atendimento" onclick="navegarPara('atendimento')" href="#"><span class="nav-icon">◎</span> Atendimento</a>
+    <a class="nav-item" data-modulo="relatorios"  onclick="navegarPara('relatorios')"  href="#"><span class="nav-icon">▤</span> Relatórios & BI</a>
+
+    <div class="nav-group-label">SISTEMA</div>
+    <a class="nav-item" data-modulo="notificacoes"  onclick="navegarPara('notificacoes')"  href="#"><span class="nav-icon">🔔</span> Notificações Auto.</a>
+    <a class="nav-item" data-modulo="integracoes"   onclick="navegarPara('integracoes')"   href="#"><span class="nav-icon">🔌</span> Integrações</a>
+    <a class="nav-item" data-modulo="configuracoes" onclick="navegarPara('configuracoes')" href="#"><span class="nav-icon">⚙</span> Configurações</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <span class="version">GESTOR v1.0</span>
+  </div>
+</aside>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<main class="main-content" id="main-content">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="breadcrumb" id="breadcrumb">Dashboard</div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Buscar processo, cliente, prazo..."/>
+      </div>
+
+      <!-- BOTÃO CLARO / ESCURO -->
+      <button class="btn-tema" id="btn-tema" onclick="alternarTema()" title="Alternar tema">
+        <span id="tema-icon">🌙</span>
+      </button>
+
+      <div class="notif-btn" onclick="toggleNotif()">
+        <span>🔔</span>
+        <span class="notif-dot"></span>
+      </div>
+
+      <!-- PERFIL DO USUÁRIO -->
+      <div class="topbar-perfil" onclick="toggleMenuPerfil()" id="topbar-perfil">
+        <div class="topbar-avatar-foto">
+          <span class="topbar-avatar-iniciais">KC</span>
+          <span class="topbar-avatar-status"></span>
+        </div>
+        <div class="topbar-perfil-info">
+          <span class="topbar-perfil-nome">Dr. Klebson Cavalcanti</span>
+          <span class="topbar-perfil-cargo">Sócio Administrador</span>
+        </div>
+        <span class="topbar-perfil-seta">▾</span>
+      </div>
+
+      <!-- DROPDOWN DE PERFIL -->
+      <div class="perfil-dropdown" id="perfil-dropdown" style="display:none">
+        <div class="perfil-dropdown-topo">
+          <div class="perfil-drop-avatar">KC</div>
+          <div>
+            <div class="perfil-drop-nome">Dr. Klebson Cavalcanti</div>
+            <div class="perfil-drop-email">klebson@costacavalcanti.adv.br</div>
+            <div class="perfil-drop-oab">OAB/SP 123.456</div>
+          </div>
+        </div>
+        <div class="perfil-dropdown-menu">
+          <button onclick="showPage('configuracoes');fecharMenuPerfil()">⚙ Configurações do sistema</button>
+          <button onclick="alternarTema();fecharMenuPerfil()">
+            <span id="tema-icon-drop">🌙</span> Modo escuro
+          </button>
+          <div class="perfil-drop-divisor"></div>
+          <button class="perfil-drop-sair" onclick="trocarUsuario()">↩ Sair / Trocar usuário</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PÁGINAS -->
+  <div class="page-content">
+
+    <!-- ========== DASHBOARD ========== -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="dash-saudacao">Bom dia 👋</h1>
+          <p class="page-subtitle">Hoje é sábado, 27 de junho de 2026 · 3 prazos vencem esta semana</p>
+        </div>
+        <button class="btn-primary">+ Novo Processo</button>
+      </div>
+
+      <!-- BARRA DE ALERTAS -->
+      <div class="alert-bar">
+        <div class="alert-item alert-danger">
+          <span class="alert-icon">⏱</span>
+          <div class="alert-text"><strong>1 prazo vence hoje</strong> — Recurso Silva vs Banco Itaú</div>
+          <a href="#" onclick="showPage('prazos')" class="alert-action">Resolver</a>
+        </div>
+        <div class="alert-item alert-meet">
+          <span class="alert-icon">📹</span>
+          <div class="alert-text"><strong>Reunião em 25 min</strong> — Audiência virtual com cliente Costa</div>
+          <a href="#" onclick="showPage('agenda')" class="alert-action meet">Entrar no Meet</a>
+        </div>
+        <div class="alert-item alert-warning">
+          <span class="alert-icon">📨</span>
+          <div class="alert-text"><strong>7 intimações novas</strong> — Aguardando triagem</div>
+          <a href="#" onclick="showPage('intimacoes')" class="alert-action">Ver</a>
+        </div>
+      </div>
+
+      <!-- CALENDÁRIO PRINCIPAL -->
+      <div class="card dash-cal-principal" style="margin-bottom:20px">
+        <div class="dash-cal-header">
+          <div class="dash-cal-header-left">
+            <div class="dash-cal-nav-btns">
+              <button onclick="dashCalMes(-1)" class="dash-cal-btn">‹</button>
+              <span id="dash-cal-titulo" class="dash-cal-mes-label"></span>
+              <button onclick="dashCalMes(1)" class="dash-cal-btn">›</button>
+            </div>
+            <button class="dash-cal-hoje-btn" onclick="dashCalHoje()">Hoje</button>
+          </div>
+          <div class="dash-cal-legenda-topo">
+            <span class="dash-leg-dot leg-audiencia"></span>Audiência
+            <span class="dash-leg-dot leg-prazo"></span>Prazo
+            <span class="dash-leg-dot leg-inss"></span>INSS
+            <span class="dash-leg-dot leg-interno"></span>Interno
+          </div>
+          <a href="#" onclick="showPage('agenda')" class="card-link">Agenda completa →</a>
+        </div>
+
+        <div class="dash-cal-corpo">
+          <!-- Grade do calendário -->
+          <div class="dash-cal-lado-esq">
+            <div class="dash-cal-semana-header">
+              <span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span>
+            </div>
+            <div class="dash-cal-grid-grande" id="dash-cal-grid"></div>
+          </div>
+
+          <!-- Painel lateral de eventos -->
+          <div class="dash-cal-lado-dir">
+            <div class="dash-ev-painel-titulo" id="dash-eventos-titulo">Eventos de hoje</div>
+            <div id="dash-eventos-lista" class="dash-ev-painel-lista"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINHAS TAREFAS -->
+      <div class="card minhas-tarefas-card" style="margin-bottom:20px" id="painel-minhas-tarefas">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title" id="minhas-tarefas-titulo">📋 Minhas Tarefas</h3>
+            <span class="page-subtitle" id="minhas-tarefas-sub"></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select class="filter-select" id="mt-filtro-status" onchange="renderMinhasTarefas()">
+              <option value="pendente">Pendentes</option>
+              <option value="todos">Todos</option>
+              <option value="concluido">Concluídos</option>
+            </select>
+          </div>
+        </div>
+        <div id="minhas-tarefas-lista"></div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Processos Ativos</div>
+          <div class="kpi-value">247</div>
+          <div class="kpi-delta positive">↑ 12 este mês</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Prazos Esta Semana</div>
+          <div class="kpi-value text-gold">8</div>
+          <div class="kpi-delta warning">3 urgentes</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Honorários a Receber</div>
+          <div class="kpi-value">R$ 48.200</div>
+          <div class="kpi-delta positive">↑ 8% vs mês anterior</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Intimações Novas</div>
+          <div class="kpi-value text-alert">7</div>
+          <div class="kpi-delta warning">Aguardando triagem</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Clientes Ativos</div>
+          <div class="kpi-value">89</div>
+          <div class="kpi-delta positive">↑ 5 novos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Horas Registradas</div>
+          <div class="kpi-value">142h</div>
+          <div class="kpi-delta neutral">Junho 2026</div>
+        </div>
+      </div>
+
+      <!-- Conteúdo duplo -->
+      <div class="dual-grid">
+        <!-- Prazos urgentes -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Prazos Urgentes</h3>
+            <a href="#" onclick="showPage('prazos')" class="card-link">Ver todos →</a>
+          </div>
+          <div class="prazo-list">
+            <div class="prazo-item prazo-critico">
+              <div class="prazo-info">
+                <span class="prazo-nome">Silva vs Banco Itaú</span>
+                <span class="prazo-tipo">Recurso de Apelação</span>
+              </div>
+              <div class="prazo-data critico">Hoje</div>
+            </div>
+            <div class="prazo-item prazo-urgente">
+              <div class="prazo-info">
+                <span class="prazo-nome">Costa Previdenciário</span>
+                <span class="prazo-tipo">Contestação INSS</span>
+              </div>
+              <div class="prazo-data urgente">Amanhã</div>
+            </div>
+            <div class="prazo-item">
+              <div class="prazo-info">
+                <span class="prazo-nome">Ferreira Trabalhista</span>
+                <span class="prazo-tipo">Razões Finais</span>
+              </div>
+              <div class="prazo-data normal">30/06</div>
+            </div>
+            <div class="prazo-item">
+              <div class="prazo-info">
+                <span class="prazo-nome">Grupo Empreendimentos</span>
+                <span class="prazo-tipo">Contrarrazões</span>
+              </div>
+              <div class="prazo-data normal">02/07</div>
+            </div>
+            <div class="prazo-item">
+              <div class="prazo-info">
+                <span class="prazo-nome">Oliveira vs Construtora</span>
+                <span class="prazo-tipo">Impugnação</span>
+              </div>
+              <div class="prazo-data normal">05/07</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intimações recentes -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Intimações Recentes</h3>
+            <a href="#" onclick="showPage('intimacoes')" class="card-link">Ver todas →</a>
+          </div>
+          <div class="intimacao-list">
+            <div class="intimacao-item">
+              <div class="intimacao-dot nova"></div>
+              <div class="intimacao-info">
+                <span class="intimacao-proc">Proc. 0012345-67.2024.8.26.0100</span>
+                <span class="intimacao-desc">Despacho — Juntada de documentos em 10 dias</span>
+                <span class="intimacao-data">Hoje, 09:14</span>
+              </div>
+              <span class="tag-ia">IA: 10 dias úteis</span>
+            </div>
+            <div class="intimacao-item">
+              <div class="intimacao-dot nova"></div>
+              <div class="intimacao-info">
+                <span class="intimacao-proc">Proc. 0098765-43.2023.5.15.0001</span>
+                <span class="intimacao-desc">Audiência de Instrução designada</span>
+                <span class="intimacao-data">Hoje, 08:52</span>
+              </div>
+              <span class="tag-ia">IA: Audiência</span>
+            </div>
+            <div class="intimacao-item lida">
+              <div class="intimacao-dot lida"></div>
+              <div class="intimacao-info">
+                <span class="intimacao-proc">Proc. 0034521-89.2022.4.03.6100</span>
+                <span class="intimacao-desc">Sentença proferida — verificar resultado</span>
+                <span class="intimacao-data">Ontem, 17:30</span>
+              </div>
+              <span class="tag-ia">IA: Sentença</span>
+            </div>
+            <div class="intimacao-item lida">
+              <div class="intimacao-dot lida"></div>
+              <div class="intimacao-info">
+                <span class="intimacao-proc">Proc. 0076543-21.2024.8.26.0224</span>
+                <span class="intimacao-desc">Penhora deferida — 5 dias para manifestação</span>
+                <span class="intimacao-data">Ontem, 14:15</span>
+              </div>
+              <span class="tag-ia">IA: 5 dias úteis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Follow-ups inteligentes -->
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <h3 class="card-title">🎯 Follow-ups Inteligentes</h3>
+          <a href="#" onclick="showPage('followups')" class="card-link">Ver todos →</a>
+        </div>
+        <p class="followup-desc" id="followup-sub">4 follow-ups pendentes · disparados automaticamente pelo sistema</p>
+        <div class="followup-mini-grid">
+          <div class="followup-mini alta"><span>📞</span> Cliente sem retorno há 38 dias <strong>Carlos Rodrigues</strong></div>
+          <div class="followup-mini alta"><span>💰</span> Honorário em atraso R$ 12.000 <strong>Empresa Ferreira</strong></div>
+          <div class="followup-mini media"><span>⚖</span> Processo parado há 78 dias <strong>Ferreira Ltda</strong></div>
+          <div class="followup-mini media"><span>🎯</span> Lead frio há 73 dias <strong>Grupo Empreendimentos</strong></div>
+        </div>
+      </div>
+
+
+      <!-- PAINEL DE PRAZOS CRÍTICOS -->
+      <div class="card" style="margin-top:20px" id="card-prazos-criticos">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">⏰</span>
+            <h3 class="card-title" style="margin:0">Prazos Críticos — Judicial &amp; GERID/INSS</h3>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:11px;color:var(--text-muted)" id="prazos-ultima-sync">Sincronizado agora</span>
+            <a href="#" onclick="navegarPara('agenda');return false" class="card-link">Agenda completa →</a>
+          </div>
+        </div>
+        <div id="widget-prazos-criticos">
+          <div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px">Carregando prazos...</div>
+        </div>
+      </div>
+
+      <!-- IA ESTRATÉGICA -->
+      <div class="card ia-estrategia-card" style="margin-top:20px">
+        <div class="card-header">
+          <h3 class="card-title">✦ IA Estratégica — Próximos Passos</h3>
+          <a href="#" onclick="showPage('estrategia');return false" class="card-link">Ver todos →</a>
+        </div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px">A IA analisa cada caso e indica o caminho mais viável para o deferimento — judicial e administrativo.</p>
+        <div id="dashboard-estrategia"></div>
+      </div>
+
+      <!-- Atividade da equipe -->
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <h3 class="card-title">Atividade da Equipe — Junho 2026</h3>
+        </div>
+        <div class="equipe-grid">
+          <div class="equipe-membro">
+            <div class="membro-avatar" style="background:#2563eb">RL</div>
+            <div class="membro-info">
+              <span class="membro-nome">Dr. Klebson Cavalcanti</span>
+              <span class="membro-stats">78 proc · 42h · 12 prazos</span>
+            </div>
+            <div class="membro-bar"><div class="membro-fill" style="width:85%"></div></div>
+          </div>
+          <div class="equipe-membro">
+            <div class="membro-avatar" style="background:#7c3aed">AC</div>
+            <div class="membro-info">
+              <span class="membro-nome">Dra. Ana Carvalho</span>
+              <span class="membro-stats">65 proc · 38h · 9 prazos</span>
+            </div>
+            <div class="membro-bar"><div class="membro-fill" style="width:72%"></div></div>
+          </div>
+          <div class="equipe-membro">
+            <div class="membro-avatar" style="background:#059669">MS</div>
+            <div class="membro-info">
+              <span class="membro-nome">Dr. Marcos Santos</span>
+              <span class="membro-stats">54 proc · 29h · 7 prazos</span>
+            </div>
+            <div class="membro-bar"><div class="membro-fill" style="width:61%"></div></div>
+          </div>
+          <div class="equipe-membro">
+            <div class="membro-avatar" style="background:#dc2626">JF</div>
+            <div class="membro-info">
+              <span class="membro-nome">Dra. Juliana Faria</span>
+              <span class="membro-stats">50 proc · 33h · 6 prazos</span>
+            </div>
+            <div class="membro-bar"><div class="membro-fill" style="width:58%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PROCESSOS ========== -->
+    <div class="page" id="page-processos">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Processos</h1>
+          <p class="page-subtitle">247 processos ativos · 18 encerrados este mês</p>
+        </div>
+        <button class="btn-primary">+ Cadastrar Processo</button>
+      </div>
+
+      <div class="filters-bar">
+        <input class="filter-input" type="text" placeholder="Buscar por número, cliente ou assunto..."/>
+        <select class="filter-select"><option>Todas as Áreas</option><option>Previdenciário</option><option>Trabalhista</option><option>Cível</option><option>Criminal</option></select>
+        <select class="filter-select"><option>Todos os Status</option><option>Ativo</option><option>Suspenso</option><option>Encerrado</option></select>
+        <select class="filter-select"><option>Todos os Advogados</option><option>Dr. Klebson Cavalcanti</option><option>Dra. Ana Carvalho</option><option>Dr. Marcos Santos</option></select>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Número CNJ</th>
+              <th>Cliente</th>
+              <th>Área</th>
+              <th>Responsável</th>
+              <th>Tribunal</th>
+              <th>Último Andamento</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="proc-num">0012345-67.2024.8.26.0100</td>
+              <td>João Pedro Silva</td>
+              <td><span class="area-tag prev">Previdenciário</span></td>
+              <td>Dr. Klebson Cavalcanti</td>
+              <td>TJSP</td>
+              <td>27/06/2026</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+            <tr>
+              <td class="proc-num">0098765-43.2023.5.15.0001</td>
+              <td>Maria Costa</td>
+              <td><span class="area-tag trab">Trabalhista</span></td>
+              <td>Dra. Ana Carvalho</td>
+              <td>TRT 15</td>
+              <td>26/06/2026</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+            <tr>
+              <td class="proc-num">0034521-89.2022.4.03.6100</td>
+              <td>Empresa Ferreira Ltda</td>
+              <td><span class="area-tag civel">Cível</span></td>
+              <td>Dr. Marcos Santos</td>
+              <td>TRF3</td>
+              <td>25/06/2026</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+            <tr>
+              <td class="proc-num">0076543-21.2024.8.26.0224</td>
+              <td>Carlos Rodrigues</td>
+              <td><span class="area-tag prev">Previdenciário</span></td>
+              <td>Dra. Juliana Faria</td>
+              <td>TJSP</td>
+              <td>24/06/2026</td>
+              <td><span class="status-tag suspenso">Suspenso</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+            <tr>
+              <td class="proc-num">0011122-33.2021.8.26.0050</td>
+              <td>Grupo Empreendimentos SA</td>
+              <td><span class="area-tag civel">Cível</span></td>
+              <td>Dr. Klebson Cavalcanti</td>
+              <td>TJSP</td>
+              <td>23/06/2026</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+            <tr>
+              <td class="proc-num">0055566-77.2023.8.26.0100</td>
+              <td>Fernanda Oliveira</td>
+              <td><span class="area-tag civel">Cível</span></td>
+              <td>Dra. Ana Carvalho</td>
+              <td>TJSP</td>
+              <td>22/06/2026</td>
+              <td><span class="status-tag encerrado">Encerrado</span></td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== PRAZOS ========== -->
+    <div class="page" id="page-prazos">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">⏰ Controle de Prazos</h1>
+          <p class="page-subtitle" id="prazos-subtitulo">Judicial · GERID/INSS · Calculadora integrada</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-secondary" data-modulo="prazos_internos" data-tipo="editar" onclick="abrirConfigMargens()" id="btn-config-margens">⚙ Margens</button>
+          <button class="btn-secondary" onclick="toggleCalculadora()">🧮 Calculadora</button>
+          <button class="btn-primary" onclick="abrirModalNovoPrazo()">+ Novo Prazo</button>
+        </div>
+      </div>
+
+      <!-- CALCULADORA (colapsável) -->
+      <div id="prazos-calculadora-wrap" style="display:none;margin-bottom:16px">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🧮 Calculadora de Prazos Fatais</h3>
+            <button class="btn-sm" onclick="toggleCalculadora()">Fechar ✕</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding:4px 0">
+            <div>
+              <label class="calc-label">Data da Publicação / Intimação</label>
+              <input type="date" class="calc-input" id="calc-data-pub" value="2026-06-28"/>
+            </div>
+            <div>
+              <label class="calc-label">Tipo de Prazo</label>
+              <select class="calc-input" id="calc-tipo">
+                <option value="15u">15 dias úteis — Recurso / Apelação</option>
+                <option value="5u">5 dias úteis — Manifestação</option>
+                <option value="10u">10 dias úteis — Contestação</option>
+                <option value="30c">30 dias corridos — Recurso Administrativo</option>
+                <option value="45c">45 dias corridos — Análise INSS</option>
+                <option value="60c">60 dias corridos — Recurso CRPS</option>
+                <option value="8u">8 dias úteis — Embargos de Declaração</option>
+              </select>
+            </div>
+            <div>
+              <label class="calc-label">Tribunal / Origem</label>
+              <select class="calc-input" id="calc-tribunal">
+                <option>TJSP — São Paulo</option>
+                <option>TRT 15 — Campinas</option>
+                <option>TRF3 — São Paulo</option>
+                <option>STJ — Brasília</option>
+                <option>INSS / CRPS</option>
+              </select>
+            </div>
+            <div>
+              <label class="calc-label">Tipo de Prazo Interno (margem)</label>
+              <select class="calc-input" id="calc-tipo-prazo-interno">
+                <option value="recurso">Recurso (−5d)</option>
+                <option value="contestacao">Contestação (−5d)</option>
+                <option value="apelacao">Apelação (−5d)</option>
+                <option value="embargos">Embargos de Declaração (−3d)</option>
+                <option value="memoriais">Memoriais / Razões (−4d)</option>
+                <option value="peticao">Petição Simples (−3d)</option>
+                <option value="inss_exigencia">Exigência INSS/GERID (−5d)</option>
+                <option value="inss_recurso">Recurso INSS/GERID (−5d)</option>
+                <option value="prazo_geral" selected>Prazo Geral / padrão (−3d)</option>
+              </select>
+            </div>
+            <div style="display:flex;flex-direction:column;justify-content:flex-end">
+              <button class="btn-primary" onclick="calcularPrazoFatal()">Calcular Prazo Fatal</button>
+            </div>
+          </div>
+          <div id="calc-resultado" style="display:none;margin-top:12px;border-radius:12px;overflow:hidden">
+            <div style="background:var(--navy);color:#fff;padding:16px 20px">
+              <div style="font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.5px">Prazo Fatal (judicial)</div>
+              <div id="calc-data-resultado" style="font-size:28px;font-weight:800;margin:4px 0"></div>
+              <div id="calc-obs-resultado" style="font-size:12px;opacity:.75"></div>
+            </div>
+            <div id="calc-interno-wrap" style="background:#fef3c7;border:1px solid #f59e0b;padding:12px 20px;display:flex;align-items:center;gap:12px">
+              <span style="font-size:20px">⚠️</span>
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.5px">Prazo Interno do Escritório</div>
+                <div id="calc-data-interna" style="font-size:20px;font-weight:800;color:#92400e;margin:2px 0"></div>
+                <div id="calc-obs-interna" style="font-size:11px;color:#b45309"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="pz-filtros">
+        <div class="pz-filtros-esq">
+          <button class="kb-tab active" id="pz-tab-todos"    onclick="trocarAbaPrazos('todos',this)">📋 Todos</button>
+          <button class="kb-tab"        id="pz-tab-vencidos" onclick="trocarAbaPrazos('vencidos',this)">💀 Vencidos</button>
+          <button class="kb-tab"        id="pz-tab-criticos" onclick="trocarAbaPrazos('criticos',this)">🚨 Críticos</button>
+          <button class="kb-tab"        id="pz-tab-judicial" onclick="trocarAbaPrazos('judicial',this)">⚖️ Judicial</button>
+          <button class="kb-tab"        id="pz-tab-inss"     onclick="trocarAbaPrazos('inss',this)">🏛 GERID/INSS</button>
+        </div>
+        <div class="pz-filtros-dir">
+          <select class="calc-input" id="pz-filtro-resp" onchange="renderTelaPrazos()" style="min-width:180px;font-size:12px;padding:6px 10px">
+            <option value="">Todos os responsáveis</option>
+          </select>
+          <input class="calc-input" id="pz-busca" placeholder="🔍 Buscar cliente ou processo..." oninput="renderTelaPrazos()" style="min-width:220px;font-size:12px;padding:6px 10px"/>
+        </div>
+      </div>
+
+      <!-- RESUMO DE CONTADORES -->
+      <div id="pz-contadores" style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap"></div>
+
+      <!-- LISTA DINÂMICA -->
+      <div id="pz-lista-wrap">
+        <div style="padding:40px;text-align:center;color:var(--text-muted)">Carregando prazos...</div>
+      </div>
+    </div>
+
+    <!-- ========== AGENDA ========== -->
+    <div class="page" id="page-agenda">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Agenda</h1>
+          <p class="page-subtitle">Agenda interna + Google Agenda · Reuniões com Google Meet</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-secondary" id="btn-google-sync" onclick="conectarGoogle(this)">🔗 Conectar Google Agenda</button>
+          <button class="btn-primary">+ Novo Compromisso</button>
+        </div>
+      </div>
+
+      <!-- Status de sincronização -->
+      <div class="sync-status">
+        <div class="sync-status-item">
+          <span class="sync-dot connected"></span>
+          <span>Agenda interna ativa</span>
+        </div>
+        <div class="sync-status-item">
+          <span class="sync-dot connected"></span>
+          <span>Google Agenda sincronizado · última sync há 2 min</span>
+        </div>
+        <div class="sync-status-item">
+          <span class="sync-dot connected"></span>
+          <span>Google Meet integrado</span>
+        </div>
+      </div>
+
+      <div class="agenda-layout">
+        <!-- Calendário -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Junho 2026</h3>
+            <div style="display:flex;gap:6px">
+              <button class="btn-sm">‹</button>
+              <button class="btn-sm">Hoje</button>
+              <button class="btn-sm">›</button>
+            </div>
+          </div>
+          <div class="calendar-grid">
+            <div class="cal-weekday">DOM</div>
+            <div class="cal-weekday">SEG</div>
+            <div class="cal-weekday">TER</div>
+            <div class="cal-weekday">QUA</div>
+            <div class="cal-weekday">QUI</div>
+            <div class="cal-weekday">SEX</div>
+            <div class="cal-weekday">SAB</div>
+
+            <div class="cal-day muted">31</div>
+            <div class="cal-day">1</div>
+            <div class="cal-day">2</div>
+            <div class="cal-day has-event">3<span class="cal-dot meet"></span></div>
+            <div class="cal-day">4</div>
+            <div class="cal-day has-event">5<span class="cal-dot interno"></span></div>
+            <div class="cal-day">6</div>
+
+            <div class="cal-day">7</div>
+            <div class="cal-day has-event">8<span class="cal-dot presencial"></span></div>
+            <div class="cal-day">9</div>
+            <div class="cal-day">10</div>
+            <div class="cal-day has-event">11<span class="cal-dot meet"></span></div>
+            <div class="cal-day">12</div>
+            <div class="cal-day">13</div>
+
+            <div class="cal-day">14</div>
+            <div class="cal-day has-event">15<span class="cal-dot meet"></span></div>
+            <div class="cal-day">16</div>
+            <div class="cal-day">17</div>
+            <div class="cal-day">18</div>
+            <div class="cal-day">19</div>
+            <div class="cal-day">20</div>
+
+            <div class="cal-day">21</div>
+            <div class="cal-day has-event">22<span class="cal-dot presencial"></span></div>
+            <div class="cal-day">23</div>
+            <div class="cal-day">24</div>
+            <div class="cal-day">25</div>
+            <div class="cal-day">26</div>
+            <div class="cal-day today">27<span class="cal-dot meet"></span><span class="cal-dot presencial"></span></div>
+
+            <div class="cal-day">28</div>
+            <div class="cal-day">29</div>
+            <div class="cal-day has-event">30<span class="cal-dot interno"></span></div>
+            <div class="cal-day muted">1</div>
+            <div class="cal-day muted">2</div>
+            <div class="cal-day muted">3</div>
+            <div class="cal-day muted">4</div>
+          </div>
+
+          <div class="cal-legend">
+            <span class="legend-item"><span class="cal-dot meet"></span> Audiência</span>
+            <span class="legend-item"><span class="cal-dot prazo"></span> Prazo</span>
+            <span class="legend-item"><span class="cal-dot andamento"></span> Andamento</span>
+            <span class="legend-item"><span class="cal-dot inss"></span> INSS Admin</span>
+            <span class="legend-item"><span class="cal-dot presencial"></span> Reunião</span>
+            <span class="legend-item"><span class="cal-dot interno"></span> Interno</span>
+          </div>
+        </div>
+
+        <!-- Compromissos do dia -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Sábado, 27 de junho</h3>
+            <span class="day-count">Todos os eventos do dia</span>
+          </div>
+          <!-- Filtros por origem -->
+          <div class="agenda-filtros" id="agenda-filtros"></div>
+          <div class="timeline" id="agenda-timeline"></div>
+
+          <button class="btn-primary btn-meet-create" onclick="criarMeet(this)" style="width:100%;margin-top:16px">
+            📹 Criar reunião com Google Meet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ANDAMENTOS & IA ========== -->
+    <div class="page" id="page-andamentos">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🤖 Andamentos & IA</h1>
+          <p class="page-subtitle">Captura automática nos tribunais · IA lê, analisa e prepara a peça · Advogado revisa e aprova antes de protocolar</p>
+        </div>
+        <button class="btn-primary" onclick="buscarTribunais(this)">🔄 Buscar andamentos nos tribunais</button>
+      </div>
+
+      <!-- Pipeline visual -->
+      <div class="pipeline">
+        <div class="pipeline-step done"><span class="pipeline-num">1</span> Capturado<br><small>Tribunais</small></div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step done"><span class="pipeline-num">2</span> IA Analisa<br><small>Lê e classifica</small></div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step active"><span class="pipeline-num">3</span> Revisão<br><small>Advogado</small></div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step"><span class="pipeline-num">4</span> Aprovado<br><small>Validado</small></div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step"><span class="pipeline-num">5</span> Protocolado<br><small>No tribunal</small></div>
+      </div>
+
+      <div class="guard-note">
+        🛡️ <strong>Supervisão obrigatória:</strong> a IA prepara tudo, mas nenhuma peça é protocolada sem que um advogado revise, edite e aprove. A responsabilidade técnica permanece com o advogado.
+      </div>
+
+      <div id="andamentos-container" class="andamentos-list"></div>
+    </div>
+
+    <!-- ========== INTIMAÇÕES ========== -->
+    <div class="page" id="page-intimacoes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Intimações</h1>
+          <p class="page-subtitle">Captura automática · Diários Oficiais + DJEN · IA classifica prazos</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-secondary">Configurar Monitoramento</button>
+          <button class="btn-primary">Capturar Agora</button>
+        </div>
+      </div>
+
+      <div class="intimacoes-tabs">
+        <button class="tab-btn active">Não Lidas (7)</button>
+        <button class="tab-btn">Lidas (42)</button>
+        <button class="tab-btn">Todas</button>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Processo</th>
+              <th>Conteúdo</th>
+              <th>IA — Prazo Sugerido</th>
+              <th>Tribunal</th>
+              <th>Recebida</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-nova">
+              <td><span class="dot-nova">●</span> Nova</td>
+              <td class="proc-num">0012345-67.2024.8.26.0100</td>
+              <td>Despacho — Juntada de documentos requerida</td>
+              <td><span class="tag-ia">10 dias úteis → 11/07/26</span></td>
+              <td>TJSP</td>
+              <td>27/06 09:14</td>
+              <td><button class="btn-sm" onclick="tratarIntimacao(this,'0012345','Juntada de documentos',10)">Tratar</button></td>
+            </tr>
+            <tr class="row-nova">
+              <td><span class="dot-nova">●</span> Nova</td>
+              <td class="proc-num">0098765-43.2023.5.15.0001</td>
+              <td>Audiência de Instrução designada para 15/08/2026</td>
+              <td><span class="tag-ia">Audiência: 15/08/26</span></td>
+              <td>TRT15</td>
+              <td>27/06 08:52</td>
+              <td><button class="btn-sm" onclick="tratarIntimacao(this,'0098765','Audiência designada',0)">Tratar</button></td>
+            </tr>
+            <tr class="row-nova">
+              <td><span class="dot-nova">●</span> Nova</td>
+              <td class="proc-num">0076543-21.2024.8.26.0224</td>
+              <td>Penhora deferida — 5 dias para manifestação</td>
+              <td><span class="tag-ia">5 dias úteis → 04/07/26</span></td>
+              <td>TJSP</td>
+              <td>26/06 17:30</td>
+              <td><button class="btn-sm" onclick="tratarIntimacao(this,'0076543','Manifestação penhora',5)">Tratar</button></td>
+            </tr>
+            <tr>
+              <td><span class="dot-lida">●</span> Lida</td>
+              <td class="proc-num">0034521-89.2022.4.03.6100</td>
+              <td>Sentença proferida — Procedente em parte</td>
+              <td><span class="tag-ia">Recurso: 15 dias úteis</span></td>
+              <td>TRF3</td>
+              <td>25/06 14:15</td>
+              <td><button class="btn-sm">Ver</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== FOLLOW-UPS ========== -->
+    <div class="page" id="page-followups">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🎯 Follow-ups Inteligentes</h1>
+          <p class="page-subtitle">O sistema monitora tudo e sugere ações automaticamente · Conectado ao CRM, Financeiro e Processos</p>
+        </div>
+      </div>
+
+      <div class="followup-banner">
+        <span class="followup-banner-icon">🤖</span>
+        <div>
+          <strong>Como funciona:</strong> o GESTOR analisa continuamente seus clientes, processos e finanças.
+          Quando detecta um cliente sem retorno, honorário atrasado, processo parado ou lead frio, cria um follow-up aqui.
+          Ao executar, os dados se movem automaticamente para o módulo certo.
+        </div>
+      </div>
+
+      <div id="followups-container" class="followups-list"></div>
+    </div>
+
+    <!-- ========== PETIÇÕES IA ========== -->
+    <div class="page" id="page-peticoes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Petições com IA ✦</h1>
+          <p class="page-subtitle">Peças judiciais e administrativas · Protocolo direto no INSS via GERID</p>
+        </div>
+      </div>
+
+      <!-- ABAS -->
+      <div class="peticoes-tabs">
+        <button class="pet-tab active" onclick="trocarTabPeticao('judicial', this)">⚖ Peças Judiciais</button>
+        <button class="pet-tab" onclick="trocarTabPeticao('administrativa', this)">🏛 Petições Administrativas INSS</button>
+        <button class="pet-tab" onclick="trocarTabPeticao('banco', this)">📚 Banco de Peças</button>
+        <button class="pet-tab" onclick="trocarTabPeticao('modelos', this)">📁 Modelos do Escritório</button>
+      </div>
+
+      <!-- ABA: JUDICIAL -->
+      <div id="pet-tab-judicial" class="pet-tab-content">
+        <div class="dual-grid">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Gerar Nova Peça Judicial</h3></div>
+            <div class="calc-form">
+              <label class="calc-label">Tipo de Peça</label>
+              <select id="pj-tipo" class="calc-input">
+                <option>Petição Inicial</option>
+                <option>Contestação</option>
+                <option>Recurso de Apelação</option>
+                <option>Agravo de Instrumento</option>
+                <option>Razões Finais</option>
+                <option>Embargos de Declaração</option>
+                <option>Mandado de Segurança</option>
+              </select>
+              <label class="calc-label">Área do Direito</label>
+              <select id="pj-area" class="calc-input">
+                <option>Previdenciário</option>
+                <option>Trabalhista</option>
+                <option>Cível</option>
+                <option>Criminal</option>
+              </select>
+              <label class="calc-label">Processo Vinculado</label>
+              <input id="pj-processo" type="text" class="calc-input" placeholder="Número CNJ ou nome do cliente"/>
+              <label class="calc-label">Tese Principal / Resumo dos Fatos</label>
+              <textarea id="pj-tese" class="calc-input" rows="4" placeholder="Descreva a tese jurídica, fatos relevantes e pedidos..."></textarea>
+              <label class="calc-label">Jurisprudência Preferencial</label>
+              <select class="calc-input">
+                <option>STJ + TRT15 + TJSP</option>
+                <option>STF + STJ</option>
+                <option>Apenas tribunal de origem</option>
+              </select>
+              <button class="btn-primary btn-ia" style="width:100%;margin-top:12px" onclick="gerarPecaJudicial()">✦ Gerar Peça com IA</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Peças Judiciais Recentes</h3></div>
+            <div class="pecas-list" id="lista-pecas-judiciais">
+              <div class="peca-item">
+                <div class="peca-icon">📄</div>
+                <div class="peca-info">
+                  <span class="peca-nome">Recurso de Apelação — Silva vs Banco</span>
+                  <span class="peca-meta">Previdenciário · Gerado 26/06 · 18 págs</span>
+                </div>
+                <div style="display:flex;gap:6px">
+                  <button class="btn-sm">Editar</button>
+                  <button class="btn-sm">Baixar</button>
+                </div>
+              </div>
+              <div class="peca-item">
+                <div class="peca-icon">📄</div>
+                <div class="peca-info">
+                  <span class="peca-nome">Contestação — Costa vs INSS</span>
+                  <span class="peca-meta">Previdenciário · Gerado 25/06 · 12 págs</span>
+                </div>
+                <div style="display:flex;gap:6px">
+                  <button class="btn-sm">Editar</button>
+                  <button class="btn-sm">Baixar</button>
+                </div>
+              </div>
+              <div class="peca-item">
+                <div class="peca-icon">📄</div>
+                <div class="peca-info">
+                  <span class="peca-nome">Razões Finais — Ferreira Trabalhista</span>
+                  <span class="peca-meta">Trabalhista · Gerado 24/06 · 8 págs</span>
+                </div>
+                <div style="display:flex;gap:6px">
+                  <button class="btn-sm">Editar</button>
+                  <button class="btn-sm">Baixar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: ADMINISTRATIVA -->
+      <div id="pet-tab-administrativa" class="pet-tab-content" style="display:none">
+
+        <!-- Status GERID -->
+        <div id="pet-gerid-aviso" class="pet-gerid-aviso">
+          <span class="pet-gerid-aviso-icon">🏛</span>
+          <div>
+            <strong>Conecte ao INSS/GERID para protocolar petições administrativas</strong><br>
+            <small>Sem conexão você ainda pode gerar e baixar a peça. Com conexão, protocola direto no INSS.</small>
+          </div>
+          <button class="btn-primary btn-sm" onclick="showPage('gerid')">Conectar ao GERID</button>
+        </div>
+
+        <div class="dual-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Nova Petição Administrativa INSS</h3>
+            </div>
+            <div class="calc-form">
+              <label class="calc-label">Tipo de Requerimento</label>
+              <select id="pa-tipo" class="calc-input" onchange="atualizarDescricaoPeticao()">
+                <option value="requerimento_beneficio">Requerimento de Benefício</option>
+                <option value="recurso_administrativo">Recurso Administrativo (1ª instância)</option>
+                <option value="recurso_crps">Recurso ao CRPS (2ª instância)</option>
+                <option value="revisao_rmi">Pedido de Revisão de RMI</option>
+                <option value="impugnacao_decadencia">Impugnação de Decadência</option>
+                <option value="desacumulacao">Pedido de Desacumulação</option>
+                <option value="cancelamento">Pedido de Cancelamento de Exigência</option>
+                <option value="recurso_pericia">Recurso de Perícia Médica</option>
+              </select>
+
+              <div id="pa-desc-box" class="pa-desc-box">
+                Requerimento inicial de concessão de benefício previdenciário junto ao INSS.
+              </div>
+
+              <label class="calc-label">Beneficiário / Cliente</label>
+              <select id="pa-cliente" class="calc-input">
+                <option value="C1">João Pedro Silva — CPF 123.456.789-00</option>
+                <option value="C2">Maria Costa — CPF 987.654.321-00</option>
+                <option value="C4">Carlos Rodrigues — CPF 456.789.123-00</option>
+              </select>
+
+              <label class="calc-label">Tipo de Benefício Pretendido</label>
+              <select id="pa-beneficio" class="calc-input">
+                <option>Aposentadoria por Tempo de Contribuição</option>
+                <option>Aposentadoria por Invalidez</option>
+                <option>Aposentadoria por Idade</option>
+                <option>Aposentadoria Especial</option>
+                <option>Auxílio por Incapacidade Temporária (Auxílio-Doença)</option>
+                <option>Auxílio-Acidente</option>
+                <option>BPC/LOAS — Benefício de Prestação Continuada</option>
+                <option>Pensão por Morte</option>
+                <option>Salário-Maternidade</option>
+              </select>
+
+              <label class="calc-label">Tipo de Demanda
+                <span class="campo-info">— aparece no relatório do protocolo</span>
+              </label>
+              <div class="demanda-select-wrap">
+                <select id="pa-demanda" class="calc-input" onchange="onChangeDemanda(this)">
+                  <option value="">— Selecione o tipo de demanda —</option>
+                  <optgroup id="pa-demanda-group" label="Demandas do Escritório">
+                  </optgroup>
+                </select>
+                <button type="button" class="btn-demanda-add" onclick="abrirGerenciarDemandas()" title="Gerenciar demandas">⚙</button>
+              </div>
+              <input id="pa-demanda-custom" class="calc-input" style="display:none;margin-top:6px"
+                placeholder="Digite o tipo de demanda personalizada..." />
+
+              <label class="calc-label">NB / Protocolo de Origem (se recurso)</label>
+              <input id="pa-nb" class="calc-input" type="text" placeholder="Ex: 182.367.490-5 (deixe em branco se requerimento novo)"/>
+
+              <label class="calc-label">Fundamentos / Fatos Relevantes</label>
+              <textarea id="pa-fatos" class="calc-input" rows="4"
+                placeholder="Ex: Cliente trabalhou em atividade rural de 1985 a 1992, possui início de prova material (certidão de casamento com qualificação de lavrador) e testemunhas..."></textarea>
+
+              <div class="pa-btns">
+                <button class="btn-secondary" style="flex:1" onclick="gerarPeticaoAdmin('baixar')">📄 Gerar e Baixar</button>
+                <button class="btn-primary btn-ia" style="flex:1" id="btn-protocolar-inss" onclick="gerarPeticaoAdmin('protocolar')">🏛 Gerar e Protocolar no INSS</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Petições Administrativas Protocoladas</h3></div>
+            <div id="lista-pecas-admin">
+              <!-- renderizado pelo JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: MODELOS DO ESCRITÓRIO -->
+      <div id="pet-tab-modelos" class="pet-tab-content" style="display:none">
+
+        <div class="modelos-layout">
+
+          <!-- COLUNA ESQUERDA: filtros + cadastro -->
+          <div class="modelos-sidebar-col">
+
+            <!-- Cadastrar novo modelo -->
+            <div class="card">
+              <div class="card-header"><h3 class="card-title">+ Novo Modelo</h3></div>
+              <div class="calc-form">
+                <label class="calc-label">Nome do Modelo</label>
+                <input id="nm-titulo" class="calc-input" placeholder="Ex: Recurso Ordinário — Previdenciário"/>
+
+                <label class="calc-label">Categoria</label>
+                <select id="nm-categoria" class="calc-input">
+                  <optgroup label="Peças Judiciais">
+                    <option value="judicial-prev">Judicial · Previdenciário</option>
+                    <option value="judicial-trab">Judicial · Trabalhista</option>
+                    <option value="judicial-civel">Judicial · Cível</option>
+                  </optgroup>
+                  <optgroup label="Petições Administrativas INSS">
+                    <option value="admin-requerimento">Admin · Requerimento de Benefício</option>
+                    <option value="admin-recurso">Admin · Recurso Administrativo</option>
+                    <option value="admin-revisao">Admin · Revisão / RMI</option>
+                    <option value="admin-outros">Admin · Outros INSS</option>
+                  </optgroup>
+                  <optgroup label="Contratos & Documentos">
+                    <option value="contrato-honorarios">Contrato de Honorários</option>
+                    <option value="procuracao">Procuração</option>
+                    <option value="declaracao">Declaração</option>
+                    <option value="notificacao">Notificação Extrajudicial</option>
+                  </optgroup>
+                </select>
+
+                <label class="calc-label">Tipo de Peça</label>
+                <input id="nm-tipo" class="calc-input" placeholder="Ex: Recurso Ordinário, Petição Inicial..."/>
+
+                <label class="calc-label">Tribunal / Órgão</label>
+                <select id="nm-tribunal" class="calc-input">
+                  <option value="">Todos / Genérico</option>
+                  <option>TJSP</option>
+                  <option>TRT 15</option>
+                  <option>TRF3</option>
+                  <option>STJ</option>
+                  <option>STF</option>
+                  <option>INSS (Administrativo)</option>
+                  <option>CRPS</option>
+                </select>
+
+                <label class="calc-label">Conteúdo do Modelo</label>
+                <textarea id="nm-conteudo" class="calc-input modelo-editor" rows="10"
+                  placeholder="Cole aqui o texto do modelo. Use [NOME_CLIENTE], [CPF], [NUMERO_PROCESSO], [DATA], [NB] como variáveis — o sistema substituirá automaticamente ao gerar a peça."></textarea>
+
+                <label class="calc-label">Tags (separadas por vírgula)</label>
+                <input id="nm-tags" class="calc-input" placeholder="Ex: aposentadoria, tempo rural, INSS"/>
+
+                <label class="calc-label">Observações internas</label>
+                <input id="nm-obs" class="calc-input" placeholder="Ex: Usar quando prazo for superior a 15 dias úteis"/>
+
+                <button class="btn-primary" style="width:100%;margin-top:12px" onclick="salvarModelo()">💾 Salvar Modelo</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- COLUNA DIREITA: biblioteca -->
+          <div class="modelos-biblioteca-col">
+
+            <!-- Filtros -->
+            <div class="modelos-filtros">
+              <input class="filter-input" type="text" placeholder="🔍 Buscar modelo..." oninput="filtrarModelos(this.value)" style="flex:1"/>
+              <select class="filter-select" onchange="filtrarModelosCategoria(this.value)">
+                <option value="">Todas as categorias</option>
+                <option value="judicial">Judiciais</option>
+                <option value="admin">Administrativas INSS</option>
+                <option value="contrato">Contratos & Documentos</option>
+              </select>
+            </div>
+
+            <!-- Contadores por categoria -->
+            <div class="modelos-cats" id="modelos-cats"></div>
+
+            <!-- Lista de modelos -->
+            <div id="modelos-lista"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: BANCO DE PEÇAS -->
+      <div id="pet-tab-banco" class="pet-tab-content" style="display:none">
+
+        <!-- Upload de Modelos -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <h3 class="card-title">📤 Upload de Modelos de Petição</h3>
+            <span style="font-size:12px;color:var(--text-muted)">Aceita .docx · .doc · .pdf · .odt</span>
+          </div>
+
+          <!-- Área drag & drop -->
+          <div id="upload-modelos-area" class="upload-modelo-area"
+            ondragover="event.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="uploadModeloPeca(event)">
+            <div class="upload-modelo-icon">📂</div>
+            <div class="upload-modelo-texto">Arraste os arquivos aqui ou</div>
+            <label class="btn-primary" style="cursor:pointer;margin-top:6px">
+              Selecionar arquivos
+              <input type="file" multiple accept=".docx,.doc,.pdf,.odt" style="display:none"
+                onchange="uploadModeloPecaInput(this)"/>
+            </label>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:8px">Tamanho máximo: 10 MB por arquivo</div>
+          </div>
+
+          <!-- Campos de classificação -->
+          <div id="upload-modelos-form" style="display:none;margin-top:14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+              <div>
+                <label class="calc-label">Tipo de Peça</label>
+                <input id="upload-modelo-tipo" class="calc-input" placeholder="Ex: Recurso Ordinário, Petição Inicial..."/>
+              </div>
+              <div>
+                <label class="calc-label">Área</label>
+                <select id="upload-modelo-area" class="calc-input">
+                  <option value="Previdenciário">Previdenciário</option>
+                  <option value="Trabalhista">Trabalhista</option>
+                  <option value="Cível">Cível</option>
+                </select>
+              </div>
+              <div>
+                <label class="calc-label">Categoria</label>
+                <select id="upload-modelo-cat" class="calc-input">
+                  <option value="Judicial">Judicial</option>
+                  <option value="Administrativa INSS">Administrativa INSS</option>
+                  <option value="Contrato">Contrato</option>
+                  <option value="Outros">Outros</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn-secondary" onclick="cancelarUploadModelo()">Cancelar</button>
+              <button class="btn-primary" onclick="confirmarUploadModelo()">💾 Salvar no Banco</button>
+            </div>
+          </div>
+
+          <!-- Lista de modelos enviados -->
+          <div id="upload-modelos-lista" style="margin-top:14px"></div>
+        </div>
+
+        <!-- Peças Geradas pelo sistema -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📚 Peças Geradas pelo Sistema</h3>
+            <div style="display:flex;gap:8px">
+              <input class="filter-input" type="text" placeholder="Buscar peça..." style="width:220px" oninput="filtrarBancoPecas(this.value)"/>
+              <select class="filter-select" onchange="filtrarBancoPecasTipo(this.value)">
+                <option value="">Todos os tipos</option>
+                <option value="judicial">Judiciais</option>
+                <option value="administrativa">Administrativas INSS</option>
+              </select>
+            </div>
+          </div>
+          <div id="banco-pecas-lista"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== FINANCEIRO ========== -->
+    <div class="page" id="page-financeiro"></div>
+
+    <!-- ========== CLIENTES ========== -->
+    <div class="page" id="page-clientes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Clientes & CRM</h1>
+          <p class="page-subtitle">89 clientes ativos · 5 novos este mês · Funil de captação</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="clientes-busca" class="calc-input" style="margin:0;width:220px" placeholder="🔍 Buscar cliente..." oninput="filtrarTabelaClientes(this.value)"/>
+          <select id="clientes-filtro-status" class="calc-input" style="margin:0;width:140px" onchange="filtrarTabelaClientes(document.getElementById('clientes-busca').value)">
+            <option value="">Todos os status</option>
+            <option value="ativo">Ativo</option>
+            <option value="suspenso">Suspenso</option>
+            <option value="lead">Lead</option>
+            <option value="inativo">Inativo</option>
+          </select>
+          <button class="btn-primary" onclick="abrirFormCliente()">+ Novo Cliente</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead>
+            <tr><th>Cliente</th><th>CPF/CNPJ</th><th>Processos</th><th>Área Principal</th><th>Honorários Totais</th><th>Status</th></tr>
+          </thead>
+          <tbody id="clientes-tbody">
+            <tr>
+              <td>
+                <div class="cliente-nome-cell" onclick="abrirPastaCliente('C1')">
+                  <div class="cliente-avatar-mini">JP</div>
+                  <div class="cliente-nome-info">
+                    <span class="cliente-nome-link">João Pedro Silva</span>
+                    <span class="cliente-pasta-num">📂 001/2026 · Arquivo A · Gaveta 1</span>
+                  </div>
+                </div>
+              </td>
+              <td>123.456.789-00</td>
+              <td>3</td>
+              <td><span class="area-tag prev">Previdenciário</span></td>
+              <td class="valor-positivo">R$ 15.500</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-nome-cell" onclick="abrirPastaCliente('C2')">
+                  <div class="cliente-avatar-mini">MC</div>
+                  <div class="cliente-nome-info">
+                    <span class="cliente-nome-link">Maria Costa</span>
+                    <span class="cliente-pasta-num">📂 002/2026 · Arquivo A · Gaveta 1</span>
+                  </div>
+                </div>
+              </td>
+              <td>987.654.321-00</td>
+              <td>2</td>
+              <td><span class="area-tag trab">Trabalhista</span></td>
+              <td class="valor-positivo">R$ 8.200</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-nome-cell" onclick="abrirPastaCliente('C3')">
+                  <div class="cliente-avatar-mini">EF</div>
+                  <div class="cliente-nome-info">
+                    <span class="cliente-nome-link">Empresa Ferreira Ltda</span>
+                    <span class="cliente-pasta-num">📂 003/2022 · Arquivo B · Gaveta 3</span>
+                  </div>
+                </div>
+              </td>
+              <td>12.345.678/0001-99</td>
+              <td>5</td>
+              <td><span class="area-tag civel">Cível</span></td>
+              <td class="valor-positivo">R$ 42.000</td>
+              <td><span class="status-tag ativo">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-nome-cell" onclick="abrirPastaCliente('C4')">
+                  <div class="cliente-avatar-mini">CR</div>
+                  <div class="cliente-nome-info">
+                    <span class="cliente-nome-link">Carlos Rodrigues</span>
+                    <span class="cliente-pasta-num">📂 004/2024 · Arquivo A · Gaveta 2</span>
+                  </div>
+                </div>
+              </td>
+              <td>456.789.123-00</td>
+              <td>1</td>
+              <td><span class="area-tag prev">Previdenciário</span></td>
+              <td class="valor-positivo">R$ 4.800</td>
+              <td><span class="status-tag suspenso">Suspenso</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="cliente-nome-cell" onclick="abrirPastaCliente('C5')">
+                  <div class="cliente-avatar-mini">GE</div>
+                  <div class="cliente-nome-info">
+                    <span class="cliente-nome-link">Grupo Empreendimentos SA</span>
+                    <span class="cliente-pasta-num sem-pasta">📂 Pasta não cadastrada — clique para cadastrar</span>
+                  </div>
+                </div>
+              </td>
+              <td>98.765.432/0001-11</td>
+              <td>0</td>
+              <td><span class="area-tag civel">Cível</span></td>
+              <td class="valor-positivo">R$ 0</td>
+              <td><span class="status-tag suspenso">Lead</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== WORKFLOW ========== -->
+    <!-- ========== AGENTES DE IA ========== -->
+    <div class="page" id="page-agentes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🤖 Agentes de IA</h1>
+          <p class="page-subtitle">Crie agentes autônomos integrados ao sistema · Processos · Agenda · WhatsApp · Petições</p>
+        </div>
+        <button class="btn-primary" onclick="abrirBuilderAgente()">✦ Criar Novo Agente</button>
+      </div>
+
+      <!-- Abas -->
+      <div class="kb-tabs" style="margin-bottom:20px">
+        <button class="kb-tab active" onclick="trocarAbaAgentes('ativos',this)">⚡ Ativos <span class="kb-tab-count" id="ag-count-ativos">0</span></button>
+        <button class="kb-tab" onclick="trocarAbaAgentes('templates',this)">📦 Templates <span class="kb-tab-count">8</span></button>
+        <button class="kb-tab" onclick="trocarAbaAgentes('logs',this)">📋 Histórico de Execuções</button>
+      </div>
+
+      <!-- Aba: Agentes Ativos -->
+      <div id="ag-tab-ativos">
+        <div id="agentes-lista" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
+        <div id="agentes-vazio" style="display:none;text-align:center;padding:60px 20px;color:var(--text-muted)">
+          <div style="font-size:48px;margin-bottom:12px">🤖</div>
+          <div style="font-size:16px;font-weight:600;margin-bottom:8px">Nenhum agente criado ainda</div>
+          <div style="font-size:13px;margin-bottom:20px">Crie um agente customizado ou use um dos templates prontos</div>
+          <button class="btn-primary" onclick="trocarAbaAgentes('templates',document.querySelectorAll('.kb-tab')[1])">Ver Templates →</button>
+        </div>
+      </div>
+
+      <!-- Aba: Templates -->
+      <div id="ag-tab-templates" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px" id="agentes-templates-grid"></div>
+      </div>
+
+      <!-- Aba: Logs -->
+      <div id="ag-tab-logs" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">📋 Histórico de Execuções</h3></div>
+          <div id="agentes-logs-lista" style="display:flex;flex-direction:column;gap:0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== KANBAN ADMINISTRATIVO ========== -->
+    <div class="page" id="page-kanban-adm">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🏢 Kanban Administrativo</h1>
+          <p class="page-subtitle">Tarefas internas do escritório · Contratos · Documentos · Operacional</p>
+        </div>
+        <button class="btn-primary" onclick="abrirModalKanban('adm')">+ Nova Tarefa</button>
+      </div>
+      <div id="kb-board-adm-solo" class="kanban-board"></div>
+    </div>
+
+    <!-- ========== KANBAN JUDICIAL ========== -->
+    <div class="page" id="page-kanban-jud">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">⚖️ Kanban Judicial</h1>
+          <p class="page-subtitle">Acompanhamento de processos judiciais · Todas as áreas</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <select class="calc-input" id="kb-jud-filtro-area" style="width:160px" onchange="_renderBoardSolo('jud')">
+            <option value="">Todas as áreas</option>
+            <option>Previdenciário</option>
+            <option>Trabalhista</option>
+            <option>Cível</option>
+            <option>Tributário</option>
+          </select>
+          <button class="btn-primary" onclick="abrirModalKanban('jud')">+ Novo Processo</button>
+        </div>
+      </div>
+      <div id="kb-board-jud-solo" class="kanban-board"></div>
+    </div>
+
+    <div class="page" id="page-workflow">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">◈ Kanban</h1>
+          <p class="page-subtitle">Controle visual de processos e tarefas internas</p>
+        </div>
+        <button class="btn-primary" id="kb-btn-novo" onclick="abrirModalKanban()">+ Novo Card</button>
+      </div>
+
+      <!-- Abas -->
+      <div class="kb-tabs">
+        <button class="kb-tab active" id="kb-tab-adm" onclick="trocarKanban('adm', this)">
+          🏢 Administrativo
+          <span class="kb-tab-count" id="kb-count-adm">0</span>
+        </button>
+        <button class="kb-tab" id="kb-tab-jud" onclick="trocarKanban('jud', this)">
+          ⚖️ Judicial
+          <span class="kb-tab-count" id="kb-count-jud">0</span>
+        </button>
+      </div>
+
+      <!-- Board Administrativo -->
+      <div id="kb-board-adm" class="kanban-board"></div>
+
+      <!-- Board Judicial -->
+      <div id="kb-board-jud" class="kanban-board" style="display:none"></div>
+    </div>
+
+    <!-- ========== DOCUMENTOS ========== -->
+    <div class="page" id="page-documentos"></div>
+
+    <div class="page" id="page-notificacoes"></div>
+
+    <!-- ========== HORAS ========== -->
+    <div class="page" id="page-horas">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Apontamento de Horas</h1>
+          <p class="page-subtitle">Timesheet por processo · Faturamento automático</p>
+        </div>
+        <button class="btn-primary">▶ Iniciar Cronômetro</button>
+      </div>
+      <div class="dual-grid">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Horas de Hoje</h3></div>
+          <div class="horas-list">
+            <div class="hora-item"><div class="hora-tempo">2h 30min</div><div class="hora-info"><span>Silva vs Banco Itaú — Elaboração de Recurso</span><span class="hora-meta">Dr. Klebson Cavalcanti · 08:00 – 10:30</span></div></div>
+            <div class="hora-item"><div class="hora-tempo">1h 15min</div><div class="hora-info"><span>Costa — Revisão de Contestação</span><span class="hora-meta">Dra. Ana Carvalho · 09:00 – 10:15</span></div></div>
+            <div class="hora-item"><div class="hora-tempo">0h 45min</div><div class="hora-info"><span>Reunião com cliente Ferreira</span><span class="hora-meta">Dr. Marcos Santos · 10:00 – 10:45</span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Resumo do Mês — Junho</h3></div>
+          <div class="horas-resumo">
+            <div class="resumo-item"><span>Dr. Klebson Cavalcanti</span><span class="resumo-h">42h</span></div>
+            <div class="resumo-item"><span>Dra. Ana Carvalho</span><span class="resumo-h">38h</span></div>
+            <div class="resumo-item"><span>Dr. Marcos Santos</span><span class="resumo-h">29h</span></div>
+            <div class="resumo-item"><span>Dra. Juliana Faria</span><span class="resumo-h">33h</span></div>
+            <div class="resumo-total"><span>Total Escritório</span><span class="resumo-h total">142h</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ATENDIMENTO ========== -->
+    <div class="page" id="page-atendimento">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Atendimento</h1>
+          <p class="page-subtitle">Histórico de contatos · E-mail exclusivo por cliente · WhatsApp integrado</p>
+        </div>
+        <button class="btn-primary">+ Registrar Atendimento</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead><tr><th>Data</th><th>Cliente</th><th>Advogado</th><th>Canal</th><th>Resumo</th><th>Duração</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr><td>27/06 09:00</td><td>João Pedro Silva</td><td>Dr. Klebson Cavalcanti</td><td><span class="canal-tag">WhatsApp</span></td><td>Atualização sobre andamento do processo</td><td>15 min</td><td><button class="btn-sm">Ver</button></td></tr>
+            <tr><td>26/06 14:30</td><td>Maria Costa</td><td>Dra. Ana Carvalho</td><td><span class="canal-tag">Presencial</span></td><td>Reunião de estratégia pré-audiência</td><td>1h 00min</td><td><button class="btn-sm">Ver</button></td></tr>
+            <tr><td>26/06 11:00</td><td>Empresa Ferreira</td><td>Dr. Marcos Santos</td><td><span class="canal-tag">E-mail</span></td><td>Envio de documentos solicitados</td><td>—</td><td><button class="btn-sm">Ver</button></td></tr>
+            <tr><td>25/06 16:00</td><td>Carlos Rodrigues</td><td>Dra. Juliana Faria</td><td><span class="canal-tag">Telefone</span></td><td>Esclarecimento sobre prazo de benefício</td><td>25 min</td><td><button class="btn-sm">Ver</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ========== RELATÓRIOS ========== -->
+    <div class="page" id="page-relatorios">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Relatórios & BI</h1>
+          <p class="page-subtitle">Indicadores estratégicos · Exportação em PDF, Excel</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-secondary">📊 Exportar Excel</button>
+          <button class="btn-primary">📄 Exportar PDF</button>
+        </div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">Taxa de Êxito</div><div class="kpi-value">73%</div><div class="kpi-delta positive">↑ 5% vs trimestre anterior</div></div>
+        <div class="kpi-card"><div class="kpi-label">Processos Novos / Mês</div><div class="kpi-value">12</div><div class="kpi-delta positive">↑ 3 vs maio</div></div>
+        <div class="kpi-card"><div class="kpi-label">Ticket Médio</div><div class="kpi-value">R$ 7.200</div><div class="kpi-delta positive">↑ 8%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Prazo Médio de Processo</div><div class="kpi-value">14 meses</div><div class="kpi-delta neutral">Estável</div></div>
+      </div>
+      <div class="dual-grid" style="margin-top:20px">
+
+        <!-- GRÁFICO ADMINISTRATIVO -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Demandas Administrativas por Área</h3>
+            <small style="color:var(--text-muted);font-size:11px">Clique para detalhar · ⚙ para editar</small>
+          </div>
+          <div class="bi-bars" id="bi-areas"></div>
+        </div>
+
+        <!-- GRÁFICO JUDICIAL POR FÓRUM -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Processos Judicializados por Fórum</h3>
+            <small style="color:var(--text-muted);font-size:11px">Clique para ver ações do fórum</small>
+          </div>
+          <div class="bi-bars" id="bi-foruns"></div>
+        </div>
+
+      </div>
+
+      <!-- FATURAMENTO ABAIXO, LARGURA TOTAL -->
+      <div style="margin-top:20px">
+        <div class="card"><div class="card-header"><h3 class="card-title">Faturamento Mensal 2026</h3></div>
+          <div class="bi-bars">
+            <div class="bi-row"><span class="bi-label">Janeiro</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:60%;background:#0F1E3C"></div><span class="bi-pct">R$ 37k</span></div></div>
+            <div class="bi-row"><span class="bi-label">Fevereiro</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:65%;background:#0F1E3C"></div><span class="bi-pct">R$ 41k</span></div></div>
+            <div class="bi-row"><span class="bi-label">Março</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:70%;background:#0F1E3C"></div><span class="bi-pct">R$ 44k</span></div></div>
+            <div class="bi-row"><span class="bi-label">Abril</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:68%;background:#0F1E3C"></div><span class="bi-pct">R$ 43k</span></div></div>
+            <div class="bi-row"><span class="bi-label">Maio</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:87%;background:#0F1E3C"></div><span class="bi-pct">R$ 55k</span></div></div>
+            <div class="bi-row"><span class="bi-label">Junho</span><div class="bi-bar-wrap"><div class="bi-bar" style="width:99%;background:#C9A84C"></div><span class="bi-pct">R$ 62k</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CONFIGURAÇÕES ========== -->
+    <div class="page" id="page-configuracoes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Configurações</h1>
+          <p class="page-subtitle">Escritório · Usuários · Permissões · Integrações</p>
+        </div>
+      </div>
+
+      <!-- ABAS -->
+      <div class="cfg-tabs">
+        <button class="cfg-tab active" onclick="trocarCfgTab('escritorio',this)">🏢 Escritório</button>
+        <button class="cfg-tab" onclick="trocarCfgTab('usuarios',this)">👥 Usuários & Permissões</button>
+        <button class="cfg-tab" onclick="trocarCfgTab('aparencia',this)">🎨 Aparência</button>
+      </div>
+
+      <!-- ABA ESCRITÓRIO -->
+      <div id="cfg-tab-escritorio" class="cfg-tab-content">
+        <div class="dual-grid" style="margin-top:16px">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Dados do Escritório</h3></div>
+            <div class="calc-form">
+              <label class="calc-label">Nome do Escritório</label>
+              <input class="calc-input" id="cfg-nome-escritorio" data-nome-escritorio value="Costa Cavalcanti Advogados" oninput="atualizarNomeEscritorio(this.value)"/>
+              <label class="calc-label">OAB Principal</label>
+              <input class="calc-input" value="OAB/SP 123.456"/>
+              <label class="calc-label">CNPJ</label>
+              <input class="calc-input" value="12.345.678/0001-99"/>
+              <label class="calc-label">E-mail</label>
+              <input class="calc-input" value="contato@costacavalcanti.adv.br"/>
+              <button class="btn-primary" style="margin-top:8px" onclick="toast('✓ Dados salvos!')">Salvar Alterações</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA USUÁRIOS & PERMISSÕES -->
+      <div id="cfg-tab-usuarios" class="cfg-tab-content" style="display:none">
+        <div style="margin-top:16px">
+          <div class="perm-header-bar">
+            <div>
+              <div style="font-size:13px;color:var(--text-secondary)">Defina o que cada usuário pode ver e fazer no sistema. Clique em <strong>Permissões</strong> para configurar módulo a módulo.</div>
+            </div>
+            <button class="btn-primary" data-modulo="configuracoes" data-tipo="editar" onclick="abrirFormUsuario()">+ Novo Usuário</button>
+          </div>
+          <div id="usuarios-lista"></div>
+        </div>
+      </div>
+
+      <!-- ABA APARÊNCIA -->
+      <div id="cfg-tab-aparencia" class="cfg-tab-content" style="display:none">
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:20px">
+
+          <!-- Modo claro/escuro -->
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">🌓 Modo de Exibição</h3></div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;padding:4px 0">
+              <button class="tema-modo-btn" id="modo-claro" onclick="aplicarModo('claro')">
+                <span style="font-size:22px">☀️</span>
+                <span>Claro</span>
+              </button>
+              <button class="tema-modo-btn" id="modo-escuro" onclick="aplicarModo('escuro')">
+                <span style="font-size:22px">🌙</span>
+                <span>Escuro</span>
+              </button>
+              <button class="tema-modo-btn" id="modo-auto" onclick="aplicarModo('auto')">
+                <span style="font-size:22px">🖥</span>
+                <span>Automático</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Temas pré-configurados -->
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">🎨 Temas Pré-configurados</h3><span style="font-size:12px;color:var(--text-muted)">Clique para aplicar instantaneamente</span></div>
+            <div id="temas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:4px 0"></div>
+          </div>
+
+          <!-- Fontes -->
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">🔤 Tipografia</h3><span style="font-size:12px;color:var(--text-muted)">Escolha a família de fontes da plataforma</span></div>
+            <div id="fontes-grid" style="padding:4px 0"></div>
+          </div>
+
+          <!-- Cores personalizadas -->
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">🖌 Personalizar Cores</h3></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:4px 0">
+              <div class="tema-cor-grupo">
+                <label class="calc-label">Cor Principal (Sidebar/Botões)</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="color" id="cor-navy" class="tema-color-picker" onchange="aplicarCorCustom('navy',this.value)"/>
+                  <input class="calc-input" id="cor-navy-hex" style="flex:1" oninput="aplicarCorCustomHex('navy',this.value)"/>
+                </div>
+              </div>
+              <div class="tema-cor-grupo">
+                <label class="calc-label">Cor de Destaque / Acento</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="color" id="cor-gold" class="tema-color-picker" onchange="aplicarCorCustom('gold',this.value)"/>
+                  <input class="calc-input" id="cor-gold-hex" style="flex:1" oninput="aplicarCorCustomHex('gold',this.value)"/>
+                </div>
+              </div>
+              <div class="tema-cor-grupo">
+                <label class="calc-label">Cor de Fundo</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="color" id="cor-bg" class="tema-color-picker" onchange="aplicarCorCustom('bg',this.value)"/>
+                  <input class="calc-input" id="cor-bg-hex" style="flex:1" oninput="aplicarCorCustomHex('bg',this.value)"/>
+                </div>
+              </div>
+              <div class="tema-cor-grupo">
+                <label class="calc-label">Cor de Superfície (Cards)</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="color" id="cor-surface" class="tema-color-picker" onchange="aplicarCorCustom('surface',this.value)"/>
+                  <input class="calc-input" id="cor-surface-hex" style="flex:1" oninput="aplicarCorCustomHex('surface',this.value)"/>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <button class="btn-secondary" onclick="restaurarTemaOriginal()">↺ Restaurar padrão</button>
+              <button class="btn-primary" onclick="salvarTemaCustom()">💾 Salvar tema</button>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">👁 Preview do Tema</h3></div>
+            <div class="tema-preview-box">
+              <div class="tema-prev-sidebar">
+                <div class="tema-prev-logo">GESTOR</div>
+                <div class="tema-prev-nav tema-prev-nav-active">Dashboard</div>
+                <div class="tema-prev-nav">Processos</div>
+                <div class="tema-prev-nav">Agenda</div>
+              </div>
+              <div class="tema-prev-main">
+                <div class="tema-prev-topbar"></div>
+                <div style="padding:12px;display:flex;flex-direction:column;gap:8px">
+                  <div class="tema-prev-card">
+                    <div class="tema-prev-kpi"></div>
+                    <div class="tema-prev-kpi"></div>
+                    <div class="tema-prev-kpi"></div>
+                  </div>
+                  <div class="tema-prev-btn">+ Novo Processo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== IA ESTRATÉGICA ========== -->
+    <div class="page" id="page-estrategia">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">✦ IA Estratégica</h1>
+          <p class="page-subtitle">Análise contínua de todos os casos · Próximo passo mais viável para o deferimento · Judicial e Administrativo INSS</p>
+        </div>
+        <button class="btn-primary" onclick="renderEstrategiaCompleta()">🔄 Reanalisar todos</button>
+      </div>
+
+      <div class="ia-banner">
+        <div class="ia-banner-icon">✦</div>
+        <div>
+          <strong>Como funciona:</strong> a IA lê o andamento de cada processo — judicial e administrativo —
+          identifica em qual estágio está, avalia a jurisprudência aplicável e indica o único próximo passo
+          mais eficaz para obter o deferimento. A responsabilidade técnica e a decisão final são sempre do advogado.
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="est-filtros" id="est-filtros">
+        <button class="est-filtro ativo" onclick="filtrarEstrategia('todos',this)">Todos</button>
+        <button class="est-filtro" onclick="filtrarEstrategia('judicial',this)">⚖ Judicial</button>
+        <button class="est-filtro" onclick="filtrarEstrategia('inss',this)">🏛 Admin INSS</button>
+        <button class="est-filtro" onclick="filtrarEstrategia('alta',this)">🔴 Urgência Alta</button>
+      </div>
+
+      <div id="estrategia-lista"></div>
+    </div>
+
+    <!-- ========== INTEGRAÇÕES ========== -->
+    <div class="page" id="page-integracoes">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🔌 Integrações & Migração</h1>
+          <p class="page-subtitle">Conexões com sistemas externos · Migração de dados · APIs</p>
+        </div>
+      </div>
+
+      <!-- RESUMO -->
+      <div class="integ-resumo-grid">
+        <div class="integ-resumo-card">
+          <span class="integ-resumo-num" id="integ-count-ativas">3</span>
+          <span class="integ-resumo-label">Ativas</span>
+        </div>
+        <div class="integ-resumo-card">
+          <span class="integ-resumo-num amarelo" id="integ-count-pendentes">2</span>
+          <span class="integ-resumo-label">Pendentes</span>
+        </div>
+        <div class="integ-resumo-card">
+          <span class="integ-resumo-num cinza" id="integ-count-disponiveis">8</span>
+          <span class="integ-resumo-label">Disponíveis</span>
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 1: APIs & AUTOMAÇÕES JURÍDICAS
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">🔌 APIs & Automações Jurídicas</div>
+        <div style="font-size:12px;color:var(--text-muted);margin:-8px 0 14px">Configuradas manualmente em um primeiro momento — tornam-se automáticas após validação</div>
+        <div class="integ-cards-grid">
+
+          <!-- GERID — card expandível com painel inline completo -->
+          <div class="integ-card" id="integ-gerid" style="flex-wrap:wrap">
+            <div class="integ-card-logo">🏛</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">INSS / GERID — Digital do Advogado</div>
+              <div class="integ-card-desc">Consulta de benefícios, extrato CNIS, requerimentos e protocolos via certificado digital A1.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-gerid" style="display:none">
+                <div class="integ-detalhe-row"><span>Autenticação</span><span>Certificado A1 (ICP-Brasil)</span></div>
+                <div class="integ-detalhe-row"><span>OAB</span><span>OAB/SP 123.456</span></div>
+                <div class="integ-detalhe-row"><span>Última sessão</span><span>28/06/2026 — 30 min</span></div>
+                <div class="integ-detalhe-row"><span>Certificado</span><span>certificado.pfx · válido até 12/2026</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="toggleDetalhe('gerid')">Detalhes</button>
+              <button class="btn-primary btn-sm" onclick="abrirPainelGerid()">🏛 Abrir GERID</button>
+            </div>
+            <div id="gerid-inline-painel" style="display:none;width:100%;margin-top:14px;border-top:1px solid var(--border);padding-top:16px"></div>
+          </div>
+
+          <!-- ZapSign — assinatura digital de documentos -->
+          <div class="integ-card desativada" id="integ-zapsign">
+            <div class="integ-card-logo" style="background:#7c3aed;color:white;font-size:18px">✍</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">ZapSign — Assinatura Digital</div>
+              <div class="integ-card-desc">Envio e coleta de assinaturas digitais em contratos, procurações e honorários. Integrado ao módulo de Documentos. Configure a chave de API para ativar.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-zapsign" style="display:none">
+                <div style="margin-bottom:10px">
+                  <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Chave de API (ZapSign)</label>
+                  <div style="display:flex;gap:8px">
+                    <input id="zapsign-api-key" class="input-field" type="password" placeholder="zs_live_xxxxxxxxxxxxxxxx" style="flex:1;font-size:12px;padding:6px 10px"/>
+                    <button class="btn-primary btn-sm" onclick="ativarZapSign()">Salvar & Ativar</button>
+                  </div>
+                </div>
+                <div class="integ-detalhe-row"><span>Plano</span><span>Profissional (até 50 docs/mês)</span></div>
+                <div class="integ-detalhe-row"><span>Webhook</span><span>Notificação automática ao assinar</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-sm" onclick="toggleDetalhe('zapsign')">Configurar</button>
+            </div>
+          </div>
+
+          <!-- Tramitação Inteligente / CNJ -->
+          <div class="integ-card desativada" id="integ-tramitacao">
+            <div class="integ-card-logo" style="background:#0f4c81;color:white;font-size:14px;font-weight:700">CNJ</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Tramitação Inteligente — CNJ</div>
+              <div class="integ-card-desc">Consulta e monitoramento de processos em todos os tribunais via API do CNJ (DataJud). Captura automática de andamentos, prazos e intimações em tempo real.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-tramitacao" style="display:none">
+                <div style="margin-bottom:10px">
+                  <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Token de Acesso (CNJ)</label>
+                  <div style="display:flex;gap:8px">
+                    <input id="tramitacao-token" class="input-field" type="password" placeholder="eyJhbGciOiJSUzI1NiJ9..." style="flex:1;font-size:12px;padding:6px 10px"/>
+                    <button class="btn-primary btn-sm" onclick="ativarTramitacao()">Salvar & Ativar</button>
+                  </div>
+                </div>
+                <div class="integ-detalhe-row"><span>Cobertura</span><span>Todos os tribunais nacionais</span></div>
+                <div class="integ-detalhe-row"><span>Atualização</span><span>A cada 4h (automático após ativar)</span></div>
+                <div class="integ-detalhe-row"><span>Documentação</span><span><a href="#" onclick="return false" style="color:var(--gold)">datajud.cnj.jus.br/api</a></span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-sm" onclick="toggleDetalhe('tramitacao')">Configurar</button>
+            </div>
+          </div>
+
+          <!-- Tribunais individuais -->
+          <div class="integ-card" id="integ-tjsp">
+            <div class="integ-card-logo">⚖</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">TJSP — Tribunal de Justiça SP</div>
+              <div class="integ-card-desc">Captura de andamentos, intimações e prazos do e-SAJ/TJSP (consulta pública, sem login).</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-tjsp" style="display:none">
+                <div class="integ-detalhe-row"><span>Método</span><span>Consulta pública e-SAJ</span></div>
+                <div class="integ-detalhe-row"><span>Processos monitorados</span><span>3 processos</span></div>
+                <div class="integ-detalhe-row"><span>Última captura</span><span>28/06/2026 09:14</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="toggleDetalhe('tjsp')">Detalhes</button>
+              <button class="btn-sm" onclick="showPage('andamentos')">Andamentos</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-trt">
+            <div class="integ-card-logo">⚖</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">TRT 15 — Tribunal Regional do Trabalho</div>
+              <div class="integ-card-desc">Consulta de andamentos e pautas de audiências trabalhistas via PJe.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-trt" style="display:none">
+                <div class="integ-detalhe-row"><span>Método</span><span>Consulta pública PJe</span></div>
+                <div class="integ-detalhe-row"><span>Processos monitorados</span><span>1 processo</span></div>
+                <div class="integ-detalhe-row"><span>Última captura</span><span>26/06/2026 08:52</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="toggleDetalhe('trt')">Detalhes</button>
+              <button class="btn-sm" onclick="showPage('andamentos')">Andamentos</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-trf">
+            <div class="integ-card-logo">⚖</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">TRF3 — Tribunal Regional Federal 3ª Região</div>
+              <div class="integ-card-desc">Processos federais — consulta via SIAJ/TRF3.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-trf" style="display:none">
+                <div class="integ-detalhe-row"><span>Método</span><span>Consulta pública SIAJ</span></div>
+                <div class="integ-detalhe-row"><span>Processos monitorados</span><span>1 processo</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="toggleDetalhe('trf')">Detalhes</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 2: PRODUTIVIDADE & COMUNICAÇÃO
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">📅 Produtividade & Comunicação</div>
+        <div class="integ-cards-grid">
+
+          <div class="integ-card" id="integ-google-agenda">
+            <div class="integ-card-logo" style="background:#fff;border:1px solid var(--border)">📅</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Google Agenda</div>
+              <div class="integ-card-desc">Sincronização bidirecional de audiências, prazos e reuniões com o Google Calendar.</div>
+              <div class="integ-card-detalhes" id="integ-detalhe-google-agenda" style="display:none">
+                <div class="integ-detalhe-row"><span>Conta</span><span>klebsoncavalcanti3@gmail.com</span></div>
+                <div class="integ-detalhe-row"><span>Última sync</span><span>há 2 minutos</span></div>
+                <div class="integ-detalhe-row"><span>Eventos sincronizados</span><span>8 eventos</span></div>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="toggleDetalhe('google-agenda')">Detalhes</button>
+              <button class="btn-sm" onclick="showPage('agenda')">Agenda</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-google-meet">
+            <div class="integ-card-logo" style="background:#fff;border:1px solid var(--border)">📹</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Google Meet</div>
+              <div class="integ-card-desc">Criação automática de links de videoconferência para audiências e reuniões com clientes.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status ativa">● Ativa</span>
+              <button class="btn-sm" onclick="showPage('agenda')">Agenda</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-whatsapp-oficial">
+            <div class="integ-card-logo" style="background:#25d366;color:white;font-size:20px">💬</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">WhatsApp Oficial <span class="wpp-badge oficial">✓ Meta API</span></div>
+              <div class="integ-card-desc">API oficial da Meta (WhatsApp Business Platform). Requer conta Business Manager, número verificado e aprovação de templates.</div>
+              <div class="wpp-recursos">
+                <span>✓ Templates aprovados</span><span>✓ Número verificado</span>
+                <span>✓ Alta confiabilidade</span><span>✓ Suporte Meta</span>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status pendente">◐ Pendente</span>
+              <button class="btn-primary btn-sm" onclick="abrirConfigWhatsapp('oficial')">Configurar</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-whatsapp-noficial">
+            <div class="integ-card-logo" style="background:#128c7e;color:white;font-size:20px">💬</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">WhatsApp Não Oficial <span class="wpp-badge noficial">Evolution API</span></div>
+              <div class="integ-card-desc">Conexão via QR Code com Evolution API. Qualquer número, sem aprovação da Meta. Ideal para início imediato.</div>
+              <div class="wpp-recursos">
+                <span>✓ QR Code — ativação rápida</span><span>✓ Qualquer número</span>
+                <span>✓ Sem aprovação de template</span><span>⚠ Risco de bloqueio</span>
+              </div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="abrirConfigWhatsapp('noficial')">Conectar</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-email">
+            <div class="integ-card-logo" style="background:#4285f4;color:white">✉</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">E-mail (Gmail / SMTP)</div>
+              <div class="integ-card-desc">Envio de notificações, honorários e documentos por e-mail diretamente do GESTOR.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('email','E-mail')">Ativar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 3: FINANCEIRO
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">💰 Financeiro & Pagamentos</div>
+        <div class="integ-cards-grid">
+
+          <div class="integ-card desativada" id="integ-asaas">
+            <div class="integ-card-logo" style="background:#0052cc;color:white">💳</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Asaas — Cobranças e Boletos</div>
+              <div class="integ-card-desc">Emissão automática de boletos, cobranças PIX e cartão para honorários advocatícios.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('asaas','Asaas')">Ativar</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-contabilidade">
+            <div class="integ-card-logo" style="background:#059669;color:white">📒</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Contabilidade (Omie / Conta Azul)</div>
+              <div class="integ-card-desc">Exportação de lançamentos financeiros para o sistema contábil do escritório.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('contabilidade','Contabilidade')">Ativar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 4: MIGRAÇÃO DE DADOS & DOCUMENTOS
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">📦 Migração de Dados & Documentos</div>
+        <div style="font-size:12px;color:var(--text-muted);margin:-8px 0 14px">Importe dados de qualquer sistema jurídico externo — feito manualmente uma única vez</div>
+        <div class="integ-cards-grid" style="grid-template-columns:1fr">
+
+          <!-- Card único de migração — abre wizard com seleção do sistema de origem -->
+          <div class="integ-card" id="integ-migracao" style="background:linear-gradient(135deg,var(--surface) 0%,rgba(201,168,76,0.06) 100%)">
+            <div class="integ-card-logo" style="background:var(--gold);color:white;font-size:22px;width:52px;height:52px">📥</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome" style="font-size:15px">Assistente de Migração Completa</div>
+              <div class="integ-card-desc" style="font-size:13px">
+                Importe clientes, processos, documentos, prazos e histórico financeiro de qualquer software jurídico externo.
+                Suporte a <strong>ProJuris · AdvWin · SAJ ADV · Themis · Legal Cloud · Astrea</strong> e outros.
+                O assistente detecta o formato, mapeia os campos automaticamente e garante que nenhum dado existente seja sobrescrito.
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+                <span class="ag-integ-tag">ProJuris</span>
+                <span class="ag-integ-tag">AdvWin</span>
+                <span class="ag-integ-tag">SAJ ADV</span>
+                <span class="ag-integ-tag">Themis</span>
+                <span class="ag-integ-tag">Legal Cloud</span>
+                <span class="ag-integ-tag">Astrea</span>
+                <span class="ag-integ-tag">+outros</span>
+              </div>
+            </div>
+            <div class="integ-card-side" style="flex-direction:column;gap:8px;align-items:flex-end">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary" onclick="abrirWizardMigracao(null)">📥 Iniciar Migração</button>
+              <div style="font-size:11px;color:var(--text-muted);text-align:right;line-height:1.4">Nenhum dado da<br>origem é alterado</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 5: IMPORTAR PLANILHAS
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">📊 Importar Planilhas</div>
+        <div style="font-size:12px;color:var(--text-muted);margin:-8px 0 14px">Excel e CSV — para dados organizados em planilhas próprias do escritório</div>
+        <div class="integ-cards-grid">
+
+          <div class="integ-card" id="integ-planilha-clientes">
+            <div class="integ-card-logo" style="background:#1d6f42;color:white;font-size:18px">👥</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Clientes — Excel / CSV</div>
+              <div class="integ-card-desc">Importe lista de clientes de uma planilha com mapeamento de colunas. Campos: nome, CPF/CNPJ, telefone, e-mail, endereço.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="abrirWizardPlanilha('clientes')">📥 Importar</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-planilha-processos">
+            <div class="integ-card-logo" style="background:#1d6f42;color:white;font-size:18px">⚖</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Processos — Excel / CSV</div>
+              <div class="integ-card-desc">Importe lista de processos: número, vara, tribunal, partes, tipo de ação e status.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="abrirWizardPlanilha('processos')">📥 Importar</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-planilha-documentos">
+            <div class="integ-card-logo" style="background:#1d6f42;color:white;font-size:18px">📁</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Documentos — ZIP / Pasta</div>
+              <div class="integ-card-desc">Importe múltiplos documentos de uma vez (ZIP ou seleção múltipla). Os arquivos são vinculados automaticamente ao processo ou cliente correspondente.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="abrirWizardPlanilha('documentos')">📥 Importar</button>
+            </div>
+          </div>
+
+          <div class="integ-card" id="integ-planilha-financeiro">
+            <div class="integ-card-logo" style="background:#1d6f42;color:white;font-size:18px">💰</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Financeiro — Excel / CSV</div>
+              <div class="integ-card-desc">Importe histórico de honorários, pagamentos e contratos financeiros de planilha.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="abrirWizardPlanilha('financeiro')">📥 Importar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =============================================
+           BLOCO 6: INFRAESTRUTURA
+           ============================================= -->
+      <div class="integ-grupo">
+        <div class="integ-grupo-label">⚙ Infraestrutura & Backend</div>
+        <div class="integ-cards-grid">
+
+          <div class="integ-card desativada" id="integ-supabase">
+            <div class="integ-card-logo" style="background:#3ecf8e;color:white">🗄</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Supabase — Banco de Dados</div>
+              <div class="integ-card-desc">Migração do GESTOR para backend real. Dados persistentes, multiusuário, autenticação segura.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status pendente">◐ Pendente</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('supabase','Supabase')">Configurar</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-railway">
+            <div class="integ-card-logo" style="background:#0B0D0E;color:white">🚂</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Railway — Servidor Backend</div>
+              <div class="integ-card-desc">Servidor Node.js para integração real com GERID, tribunais e certificado A1.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status pendente">◐ Pendente</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('railway','Railway')">Configurar</button>
+            </div>
+          </div>
+
+          <div class="integ-card desativada" id="integ-cloudflare">
+            <div class="integ-card-logo" style="background:#f38020;color:white">☁</div>
+            <div class="integ-card-body">
+              <div class="integ-card-nome">Cloudflare Pages — Deploy</div>
+              <div class="integ-card-desc">Hospedagem do GESTOR em produção com CDN global, SSL automático e domínio próprio.</div>
+            </div>
+            <div class="integ-card-side">
+              <span class="integ-status disponivel">○ Disponível</span>
+              <button class="btn-primary btn-sm" onclick="ativarIntegracao('cloudflare','Cloudflare')">Ativar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GERID movido para dentro de Integrações via painel inline -->
+
+  </div><!-- /page-content -->
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
