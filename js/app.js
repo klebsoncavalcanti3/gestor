@@ -5637,6 +5637,8 @@ function excluirCliente(id) {
   if (!c) return;
   GESTOR.clientes = GESTOR.clientes.filter(x => x.id !== id);
   delete GESTOR.pastaClientes[id];
+  _salvarDados();
+  if (typeof _sb !== 'undefined') _sb.from('clientes').delete().eq('id', id);
   document.getElementById('modal-excluir-cliente')?.remove();
   renderTabelaClientes();
   toast(`✓ Cliente removido.`);
