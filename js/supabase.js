@@ -144,7 +144,6 @@ async function sbSincronizarTudo() {
 
 // ── Push dos usuários de dados.js ─────────────────────────────────────────────
 async function sbPushUsuariosIniciais() {
-  if (typeof USUARIOS !== 'undefined' && USUARIOS.length > 0) {
-    await sbSalvarUsuarios(USUARIOS);
-  }
+  const lista = typeof USUARIOS_SISTEMA !== 'undefined' ? USUARIOS_SISTEMA : [];
+  if (lista.length > 0) await sbSalvarUsuarios(lista);
 }
