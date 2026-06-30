@@ -5527,6 +5527,7 @@ function salvarCliente(clienteId) {
     Object.assign(c, { nome, doc, area, status, telefone, email, endereco, nascimento,
       honorarios, responsavel, pastaFisica: pastaNum || null,
       localizacaoPasta: pastaLoc || null, obs });
+    if (typeof sbSalvarCliente === 'function') sbSalvarCliente(c);
     fecharFormCliente();
     renderTabelaClientes();
     toast(`✓ Cliente <strong>${esc(nome)}</strong> atualizado!`);
@@ -5543,6 +5544,7 @@ function salvarCliente(clienteId) {
     GESTOR.clientes.push(novoCliente);
     GESTOR.pastaClientes[id] = [];
     _salvarDados();
+    if (typeof sbSalvarCliente === 'function') sbSalvarCliente(novoCliente);
     fecharFormCliente();
     renderTabelaClientes();
     toast(`✓ Cliente <strong>${esc(nome)}</strong> cadastrado!<br><small>→ Pasta ${esc(pastaNum || 'sem número')} criada</small>`);
